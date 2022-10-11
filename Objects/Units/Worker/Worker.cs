@@ -15,7 +15,7 @@ public class Worker : MonoBehaviour
     public float sightRange = 5f;
     public float interactionRange = 1f;
     public LayerMask woodLayer;
-    
+
     // Movement
     public float movementSpeed = 2f;
     public Vector2 basePos;
@@ -35,7 +35,8 @@ public class Worker : MonoBehaviour
 
     void handleState()
     {
-        if (this.newState) {
+        if (this.newState)
+        {
             this.initNewState();
         }
 
@@ -74,21 +75,24 @@ public class Worker : MonoBehaviour
 
     void idle()
     {
-        if (!this.goToTargetPos()) {
+        if (!this.goToTargetPos())
+        {
             this.targetPos = this.newStatePos + Random.insideUnitCircle * 10;
         }
     }
 
     void goBase()
     {
-        if (!this.goToTargetPos()) {
+        if (!this.goToTargetPos())
+        {
             this.targetPos = this.basePos + Random.insideUnitCircle * 10;
         }
     }
 
     void explore()
     {
-        if (!this.goToTargetPos()) {
+        if (!this.goToTargetPos())
+        {
             this.targetPos = Random.insideUnitCircle * 10;
             this.targetPos += this.transform.position;
         }
@@ -115,7 +119,8 @@ public class Worker : MonoBehaviour
     {
         Collider2D[] objsInRange = Physics2D.OverlapCircleAll(this.transform.position, this.sightRange, obj);
 
-        if (objsInRange.Length > 0) {
+        if (objsInRange.Length > 0)
+        {
             this.walkTo(this.calculateClosestCollider(objsInRange).position);
             return true;
         }
@@ -127,14 +132,19 @@ public class Worker : MonoBehaviour
     {
         Transform nearestObj = null;
 
-        foreach (Collider2D obj in objsInRange) {
-            if (nearestObj == null) {
+        foreach (Collider2D obj in objsInRange)
+        {
+            if (nearestObj == null)
+            {
                 nearestObj = obj.transform;
 
-            } else {
-                if (Vector3.Distance(this.transform.position, obj.transform.position) 
-                    < Vector3.Distance(this.transform.position, nearestObj.position)) {
-                        nearestObj = obj.transform;
+            }
+            else
+            {
+                if (Vector3.Distance(this.transform.position, obj.transform.position)
+                    < Vector3.Distance(this.transform.position, nearestObj.position))
+                {
+                    nearestObj = obj.transform;
                 }
             }
         }
@@ -146,7 +156,8 @@ public class Worker : MonoBehaviour
     {
         Collider2D[] objsInRange = Physics2D.OverlapCircleAll(this.transform.position, this.interactionRange, obj);
 
-        if (objsInRange.Length > 0) {
+        if (objsInRange.Length > 0)
+        {
             // Do something
             return true;
         }
@@ -156,14 +167,16 @@ public class Worker : MonoBehaviour
 
     void getWood()
     {
-        if (!this.interactObj(this.woodLayer)) {
-            if (!this.findObj(this.woodLayer)) {
+        if (!this.interactObj(this.woodLayer))
+        {
+            if (!this.findObj(this.woodLayer))
+            {
                 this.explore();
             }
         }
     }
 
-    void OnDrawGizmosSelected() 
+    void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireSphere(this.transform.position, this.sightRange);
         Gizmos.DrawWireSphere(this.transform.position, this.interactionRange);
